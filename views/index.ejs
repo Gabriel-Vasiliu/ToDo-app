@@ -1,0 +1,32 @@
+<%- include("header.ejs") %>
+
+<% 
+    var currentTime = new Date();
+    var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var day = days[currentTime.getDate() % 7];
+    var month = months[currentTime.getMonth()];
+%>
+
+<p class="list-title"><%= day %>, <%= currentTime.getDate() %> <%= month %></p>
+
+<% if (locals.todayList) { %>
+    <% for( let index = 0; index < todayList.length; index++ ) { %>
+        <div class="element">
+            <p><%= todayList[index] %></p>
+            <form action="/submitToday" method="POST">
+                <input type="hidden" id="listId" name="todayListId" value="<%= index %>">
+                <button type="submit"><i class='fa fa-trash'></i></button>
+            </form>
+        </div>
+    <% } %>
+<% } %>
+    
+<div class="addItemContainer">
+    <form action="/addToday" method="post">
+        <input type="text" name="addItem" class="addItem" autocomplete="off" placeholder="Add.." autofocus>
+        <button type="submit"><i class="fa fa-plus" aria-hidden="true"></i></button>
+    </form>
+</div>
+
+<%- include("footer.ejs") %>
